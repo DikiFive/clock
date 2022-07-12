@@ -35,6 +35,20 @@ void gui_fill_circle(u16 x0, u16 y0, u16 r, u16 color)
 }
 
 /**
+ * @brief  画空心圆
+ * @param  x0 坐标
+ * @param  y0 坐标
+ * @param  r 半径
+ * @param  color 颜色
+ * @retval 无
+ */
+void gui_hollow_circle(u16 x0, u16 y0, u16 r, u16 color)
+{
+    POINT_COLOR(color);
+    LCD_Draw_Circle(x0,y0,r);
+}
+
+/**
  * @brief  画水平线
  * @param  x0 坐标
  * @param  y0 坐标
@@ -49,10 +63,6 @@ void gui_draw_hline(u16 x0, u16 y0, u16 len, u16 color)
     LCD_Fill(x0, y0, x0 + len - 1, y0, color);
 }
 
-//画一条粗线(方法1)
-// x0,y0:起点 x1,y1:终点
-// size:线粗细,仅支持:0~2.
-// color:颜色
 /**
  * @brief  画一条粗线(方法1)
  * @param  x0 坐标
@@ -131,4 +141,19 @@ void gui_draw_bline1(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
             uCol += incy;
         }
     }
+}
+
+/**
+ * @brief  画一条花边框
+ * @param  x0 对角点
+ * @param  y0 对角点
+ * @param  x1 对角点
+ * @param  y1 对角点
+ * @param  size 花边直径
+ * @param  color 颜色
+ * @retval 无
+ */
+void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
+{
+    gui_fill_circle(x0, y0, size / 2, color);
 }

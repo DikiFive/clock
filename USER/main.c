@@ -24,6 +24,6 @@ int main(void)
 	clock_draw_panel(120, 80, 80 * 2, 8);			   //显示指针时钟表盘
 	while (1)
 	{
-		clock_play(80, 8);
+		clock_play(80, 15);
 	}
 }

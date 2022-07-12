@@ -6,7 +6,8 @@
 #include "delay.h"
 #include "tim1.h"
 
-time clock; //时间结构体
+time clock; //时间表盘结构体
+SHOW STime; //时间数显结构体
 
 /**
  * @brief  闹钟响铃
@@ -134,7 +135,7 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     py0 = sy + r - (r - 3 * d - 7) * cos((PI / 6) * temp);
     px1 = sx + r + r1 * sin((PI / 6) * temp);
     py1 = sy + r - r1 * cos((PI / 6) * temp);
-    gui_draw_bline1(px0, py0, px1, py1, 2, YELLOW);
+    gui_draw_bline1(px0, py0, px1, py1, 2, BRRED);
     //显示分钟
     r1 = d / 2 + 3;
     temp = (float)sec / 60;
@@ -144,7 +145,7 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     py0 = sy + r - (r - 2 * d - 7) * cos((PI / 30) * temp);
     px1 = sx + r + r1 * sin((PI / 30) * temp);
     py1 = sy + r - r1 * cos((PI / 30) * temp);
-    gui_draw_bline1(px0, py0, px1, py1, 1, GREEN);
+    gui_draw_bline1(px0, py0, px1, py1, 1, LIGHTGREEN);
     //显示秒钟
     r1 = d / 2 + 3;
     //显示新的秒钟
@@ -152,10 +153,14 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     py0 = sy + r - (r - d - 7) * cos((PI / 30) * sec);
     px1 = sx + r + r1 * sin((PI / 30) * sec);
     py1 = sy + r - r1 * cos((PI / 30) * sec);
-    gui_draw_bline1(px0, py0, px1, py1, 0, RED);
+    gui_draw_bline1(px0, py0, px1, py1, 0, MAGENTA);
     oldhour = hour; //保存时
     oldmin = min;   //保存分
     oldsec = sec;   //保存秒
+    if (clock.sec == 86400-1)
+    (
+        clock.sec=0;
+    )
 }
 
 /**
@@ -166,5 +171,4 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
 u8 clock_play(u16 r, u8 d)
 {
     clock_showtime(120, 80, r * 2, d, clock.hour, clock.min, clock.sec); //指针时钟显示时间
-    delay_ms(1000);
 }
