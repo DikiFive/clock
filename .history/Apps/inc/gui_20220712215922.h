@@ -3,8 +3,7 @@
 
 #include "sys.h"
 
-void gui_draw_point(u16 x, u16 y, u16 color);                                                               //画点
-void gui_draw_expoint(u16 sx, u16 sy, u16 ex, u16 ey, u16 x, u16 y, u16 color);                             //画区域点
+void gui_draw_point(u16 x, u16 y, u16 color) ;void gui_draw_expoint(u16 sx, u16 sy, u16 ex, u16 ey, u16 x, u16 y, u16 color); //画区域点
 void gui_draw_circle8(u16 sx, u16 sy, u16 ex, u16 ey, u16 rx, u16 ry, int a, int b, u16 color);             //画8点(Bresenham算法)
 void gui_fill_circle(u16 x0, u16 y0, u16 r, u16 color);                                                     //画实心圆
 void gui_draw_arc(u16 sx, u16 sy, u16 ex, u16 ey, u16 rx, u16 ry, u16 r, u16 color, u8 mode);               //在指定位置画一个指定大小的圆

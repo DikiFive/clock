@@ -2,19 +2,6 @@
 #include "lcd.h"
 
 /**
- * @brief  画点
- * @param  x 点坐标
- * @param  y 点坐标
- * @param  color 颜色
- * @retval 无
- */
-void gui_draw_point(u16 x, u16 y, u16 color)
-{
-    POINT_COLOR = color;
-    LCD_DrawPoint(x, y);
-}
-
-/**
  * @brief  在区域内画点
  * @param  sx 设定的显示范围
  * @param  sy 设定的显示范围
@@ -241,12 +228,16 @@ void gui_draw_vline(u16 x0, u16 y0, u16 len, u16 color)
     LCD_Fill(x0, y0, x0, y0 + len - 1, color);
 }
 
+//画任意线
+// x0,y0:起点 x1,y1:终点
+// color:颜色
 /**
  * @brief  画任意线
  * @param  x0 起点
  * @param  y0 起点
  * @param  x1 终点
  * @param  y1 终点
+ * @param  len 花边直径
  * @param  color 颜色
  * @retval 无
  */
@@ -284,7 +275,7 @@ void gui_draw_line(u16 x0, u16 y0, u16 x1, u16 y1, u16 color)
         distance = delta_y;
     for (t = 0; t <= distance + 1; t++) //画线输出
     {
-        gui_draw_point(uRow, uCol, color); //画点
+        gui_phy.draw_point(uRow, uCol, color); //画点
         xerr += delta_x;
         yerr += delta_y;
         if (xerr > distance)
@@ -392,6 +383,7 @@ void gui_draw_bline1(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
  */
 void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
 {
+
 }
 
 /**

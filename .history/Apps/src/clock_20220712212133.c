@@ -163,15 +163,8 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     }
 }
 
-/**
- * @brief 时钟边框
- * @param width 宽
- * @param height 高
- * @param color 秒钟高度
- */
-void clock_draw_frame(u16 width, u16 height, u16 color)
+void clock_draw_frame()
 {
-
 }
 
 /**

@@ -154,24 +154,11 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     px1 = sx + r + r1 * sin((PI / 30) * sec);
     py1 = sy + r - r1 * cos((PI / 30) * sec);
     gui_draw_bline1(px0, py0, px1, py1, 0, MAGENTA);
-    oldhour = hour;         //保存时
-    oldmin = min;           //保存分
-    oldsec = sec;           //保存秒
-    if (clock.sec == 86400) //零点置零
-    {
-        clock.sec = 0;
-    }
-}
+    oldhour = hour; //保存时
+    oldmin = min;   //保存分
+    oldsec = sec;   //保存秒
 
-/**
- * @brief 时钟边框
- * @param width 宽
- * @param height 高
- * @param color 秒钟高度
- */
-void clock_draw_frame(u16 width, u16 height, u16 color)
-{
-
+    if(clock.sec == 86400)
 }
 
 /**

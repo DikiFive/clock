@@ -2,19 +2,6 @@
 #include "lcd.h"
 
 /**
- * @brief  画点
- * @param  x 点坐标
- * @param  y 点坐标
- * @param  color 颜色
- * @retval 无
- */
-void gui_draw_point(u16 x, u16 y, u16 color)
-{
-    POINT_COLOR = color;
-    LCD_DrawPoint(x, y);
-}
-
-/**
  * @brief  在区域内画点
  * @param  sx 设定的显示范围
  * @param  sy 设定的显示范围
@@ -153,8 +140,8 @@ void gui_draw_ellipse(u16 x0, u16 y0, u16 rx, u16 ry, u16 color)
     u32 _ry = ry;
     if (rx > x0 || ry > y0)
         return;                                                //非法.
-    OutConst = _rx * _rx * _ry * _ry + (_rx * _rx * _ry >> 1); // 常数如上所述
-    //补偿舍入
+    OutConst = _rx * _rx * _ry * _ry + (_rx * _rx * _ry >> 1); // Constant as explaint above
+    // To compensate for rounding
     xOld = x = rx;
     for (y = 0; y <= ry; y++)
     {
@@ -162,11 +149,11 @@ void gui_draw_ellipse(u16 x0, u16 y0, u16 rx, u16 ry, u16 color)
             x = 0;
         else
         {
-            SumY = ((u32)(rx * rx)) * ((u32)(y * y)); //循环中不改变
+            SumY = ((u32)(rx * rx)) * ((u32)(y * y)); // Does not change in loop
             while (Sum = SumY + ((u32)(ry * ry)) * ((u32)(x * x)), (x > 0) && (Sum > OutConst))
                 x--;
         }
-        // 因为我们画线，所以不能在第一次迭代中绘制
+        // Since we draw lines, we can not draw on the first iteration
         if (y)
         {
             gui_draw_line(x0 - xOld, y0 - y + 1, x0 - x, y0 - y, color);
@@ -206,6 +193,25 @@ void gui_fill_ellipse(u16 x0, u16 y0, u16 rx, u16 ry, u16 color)
             gui_draw_hline(x0 - x, y0 - y, 2 * x, color);
     }
 }
+//快速ALPHA BLENDING算法.
+// src:源颜色
+// dst:目标颜色
+// alpha:透明程度(0~32)
+//返回值:混合后的颜色.
+u16 gui_alpha_blend565(u16 src, u16 dst, u8 alpha)
+{
+    u32 src2;
+    u32 dst2;
+    // Convert to 32bit |-----GGGGGG-----RRRRR------BBBBB|
+    src2 = ((src << 16) | src) & 0x07E0F81F;
+    dst2 = ((dst << 16) | dst) & 0x07E0F81F;
+    // Perform blending R:G:B with alpha in range 0..32
+    // Note that the reason that alpha may not exceed 32 is that there are only
+    // 5bits of space between each R:G:B value, any higher value will overflow
+    // into the next component and deliver ugly result.
+    dst2 = ((((dst2 - src2) * alpha) >> 5) + src2) & 0x07E0F81F;
+    return (dst2 >> 16) | dst2;
+}
 
 /**
  * @brief  画水平线
@@ -239,65 +245,6 @@ void gui_draw_vline(u16 x0, u16 y0, u16 len, u16 color)
         return;
     }
     LCD_Fill(x0, y0, x0, y0 + len - 1, color);
-}
-
-/**
- * @brief  画任意线
- * @param  x0 起点
- * @param  y0 起点
- * @param  x1 终点
- * @param  y1 终点
- * @param  color 颜色
- * @retval 无
- */
-void gui_draw_line(u16 x0, u16 y0, u16 x1, u16 y1, u16 color)
-{
-    u16 t;
-    int xerr = 0, yerr = 0, delta_x, delta_y, distance;
-    int incx, incy, uRow, uCol;
-
-    delta_x = x1 - x0; //计算坐标增量
-    delta_y = y1 - y0;
-    uRow = x0;
-    uCol = y0;
-    if (delta_x > 0)
-        incx = 1; //设置单步方向
-    else if (delta_x == 0)
-        incx = 0; //垂直线
-    else
-    {
-        incx = -1;
-        delta_x = -delta_x;
-    }
-    if (delta_y > 0)
-        incy = 1;
-    else if (delta_y == 0)
-        incy = 0; //水平线
-    else
-    {
-        incy = -1;
-        delta_y = -delta_y;
-    }
-    if (delta_x > delta_y)
-        distance = delta_x; //选取基本增量坐标轴
-    else
-        distance = delta_y;
-    for (t = 0; t <= distance + 1; t++) //画线输出
-    {
-        gui_draw_point(uRow, uCol, color); //画点
-        xerr += delta_x;
-        yerr += delta_y;
-        if (xerr > distance)
-        {
-            xerr -= distance;
-            uRow += incx;
-        }
-        if (yerr > distance)
-        {
-            yerr -= distance;
-            uCol += incy;
-        }
-    }
 }
 
 /**
@@ -392,6 +339,8 @@ void gui_draw_bline1(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
  */
 void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
 {
+
+    gui_fill_circle(x0, y0, size / 2, color);
 }
 
 /**
@@ -429,11 +378,10 @@ void gui_draw_rectangle(u16 x0, u16 y0, u16 width, u16 height, u16 color)
 
 /**
  * @brief  画圆角矩形/填充圆角矩形
- * @param  x 圆角矩形的位置左上角
- * @param  y 圆角矩形的位置左上角
+ * @param  x 圆角矩形的位置
+ * @param  y 圆角矩形的位置
  * @param  width 矩形的尺寸
  * @param  height 矩形的尺寸
- * @param  r 圆角的半径
  * @param  mode 0,画矩形框;1,填充矩形
  * @param  upcolor 上半部分颜色
  * @param  downcolor 下半部分颜色

@@ -10,7 +10,7 @@
  */
 void gui_draw_point(u16 x, u16 y, u16 color)
 {
-    POINT_COLOR = color;
+    POINT_COLOR(color);
     LCD_DrawPoint(x, y);
 }
 

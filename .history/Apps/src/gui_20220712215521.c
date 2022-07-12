@@ -8,11 +8,7 @@
  * @param  color 颜色
  * @retval 无
  */
-void gui_draw_point(u16 x, u16 y, u16 color)
-{
-    POINT_COLOR = color;
-    LCD_DrawPoint(x, y);
-}
+void gui_draw_point()
 
 /**
  * @brief  在区域内画点
@@ -284,7 +280,7 @@ void gui_draw_line(u16 x0, u16 y0, u16 x1, u16 y1, u16 color)
         distance = delta_y;
     for (t = 0; t <= distance + 1; t++) //画线输出
     {
-        gui_draw_point(uRow, uCol, color); //画点
+        gui_phy.draw_point(uRow, uCol, color); //画点
         xerr += delta_x;
         yerr += delta_y;
         if (xerr > distance)

@@ -163,23 +163,15 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
     }
 }
 
-/**
- * @brief 时钟边框
- * @param width 宽
- * @param height 高
- * @param color 秒钟高度
- */
-void clock_draw_frame(u16 width, u16 height, u16 color)
-{
+frame
 
-}
-
-/**
- * @brief 时钟显示
- * @param r 半径
- * @param d 秒钟高度
- */
-u8 clock_play(u16 r, u8 d)
+    /**
+     * @brief 时钟显示
+     * @param r 半径
+     * @param d 秒钟高度
+     */
+    u8
+    clock_play(u16 r, u8 d)
 {
     clock_showtime(120, 80, r * 2, d, clock.hour, clock.min, clock.sec); //指针时钟显示时间
 }

@@ -2,19 +2,6 @@
 #include "lcd.h"
 
 /**
- * @brief  画点
- * @param  x 点坐标
- * @param  y 点坐标
- * @param  color 颜色
- * @retval 无
- */
-void gui_draw_point(u16 x, u16 y, u16 color)
-{
-    POINT_COLOR = color;
-    LCD_DrawPoint(x, y);
-}
-
-/**
  * @brief  在区域内画点
  * @param  sx 设定的显示范围
  * @param  sy 设定的显示范围
@@ -242,65 +229,6 @@ void gui_draw_vline(u16 x0, u16 y0, u16 len, u16 color)
 }
 
 /**
- * @brief  画任意线
- * @param  x0 起点
- * @param  y0 起点
- * @param  x1 终点
- * @param  y1 终点
- * @param  color 颜色
- * @retval 无
- */
-void gui_draw_line(u16 x0, u16 y0, u16 x1, u16 y1, u16 color)
-{
-    u16 t;
-    int xerr = 0, yerr = 0, delta_x, delta_y, distance;
-    int incx, incy, uRow, uCol;
-
-    delta_x = x1 - x0; //计算坐标增量
-    delta_y = y1 - y0;
-    uRow = x0;
-    uCol = y0;
-    if (delta_x > 0)
-        incx = 1; //设置单步方向
-    else if (delta_x == 0)
-        incx = 0; //垂直线
-    else
-    {
-        incx = -1;
-        delta_x = -delta_x;
-    }
-    if (delta_y > 0)
-        incy = 1;
-    else if (delta_y == 0)
-        incy = 0; //水平线
-    else
-    {
-        incy = -1;
-        delta_y = -delta_y;
-    }
-    if (delta_x > delta_y)
-        distance = delta_x; //选取基本增量坐标轴
-    else
-        distance = delta_y;
-    for (t = 0; t <= distance + 1; t++) //画线输出
-    {
-        gui_draw_point(uRow, uCol, color); //画点
-        xerr += delta_x;
-        yerr += delta_y;
-        if (xerr > distance)
-        {
-            xerr -= distance;
-            uRow += incx;
-        }
-        if (yerr > distance)
-        {
-            yerr -= distance;
-            uCol += incy;
-        }
-    }
-}
-
-/**
  * @brief  画一条粗线
  * @param  x0 坐标
  * @param  y0 坐标
@@ -392,6 +320,8 @@ void gui_draw_bline1(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
  */
 void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color)
 {
+
+    gui_fill_circle(x0, y0, size / 2, color);
 }
 
 /**
@@ -429,11 +359,10 @@ void gui_draw_rectangle(u16 x0, u16 y0, u16 width, u16 height, u16 color)
 
 /**
  * @brief  画圆角矩形/填充圆角矩形
- * @param  x 圆角矩形的位置左上角
- * @param  y 圆角矩形的位置左上角
+ * @param  x 圆角矩形的位置
+ * @param  y 圆角矩形的位置
  * @param  width 矩形的尺寸
  * @param  height 矩形的尺寸
- * @param  r 圆角的半径
  * @param  mode 0,画矩形框;1,填充矩形
  * @param  upcolor 上半部分颜色
  * @param  downcolor 下半部分颜色
@@ -468,4 +397,48 @@ void gui_draw_arcrectangle(u16 x, u16 y, u16 width, u16 height, u8 r, u8 mode, u
     gui_draw_arc(x, y + btnxh - r, x + r, y + btnxh - 1, x + r, y + btnxh - r - 1, r, downcolor, mode);                             //左下
     gui_draw_arc(x + width - r, y, x + width, y + r, x + width - r - 1, y + r, r, upcolor, mode);                                   //右上
     gui_draw_arc(x + width - r, y + btnxh - r, x + width, y + btnxh - 1, x + width - r - 1, y + btnxh - r - 1, r, downcolor, mode); //右下
+}
+
+//显示len个数字
+// x,y :起点坐标
+// len :数字的位数
+// color:颜色
+// size:字体大小
+// num:数值(0~2^64);
+// mode:模式.
+//[7]:0,不填充;1,填充0.
+//[3:0]:0,非叠加显示;1,叠加显示.2,大点叠加(只适用于叠加模式)
+/**
+ * @brief  显示len个数字
+ * @param  x 起点坐标
+ * @param  y 起点坐标
+ * @param  len 数字的位数
+ * @param  color 颜色
+ * @param  size 字体大小
+ * @param  num:数值(0~2^64);
+ * @param  downcolor 下半部分颜色
+ * @retval 无
+ */
+void gui_show_num(u16 x, u16 y, u8 len, u16 color, u8 size, long long num, u8 mode)
+{
+    u8 t, temp;
+    u8 enshow = 0;
+    for (t = 0; t < len; t++)
+    {
+        temp = (num / gui_pow(10, len - t - 1)) % 10;
+        if (enshow == 0 && t < (len - 1))
+        {
+            if (temp == 0)
+            {
+                if (mode & 0X80)
+                    gui_show_ptchar(x + (size / 2) * t, y, gui_phy.lcdwidth, gui_phy.lcdheight, 0, color, size, '0', mode & 0xf); //填充0
+                else
+                    gui_show_ptchar(x + (size / 2) * t, y, gui_phy.lcdwidth, gui_phy.lcdheight, 0, color, size, ' ', mode & 0xf);
+                continue;
+            }
+            else
+                enshow = 1;
+        }
+        gui_show_ptchar(x + (size / 2) * t, y, gui_phy.lcdwidth, gui_phy.lcdheight, 0, color, size, temp + '0', mode & 0xf);
+    }
 }
