@@ -17,13 +17,17 @@
             "*.c++": "cpp",
             "*.cpp": "cpp",
             "*.cxx": "cpp",
-            "*.cc": "cpp"
+            "*.cc": "cpp",
+            "FONT.H": "cpp"
         },
         "[yaml]": {
             "editor.insertSpaces": true,
             "editor.tabSize": 4,
             "editor.autoIndent": "advanced"
-        }
+        },
+        "cSpell.words": [
+            "ledset"
+        ]
     },
     "extensions": {
         "recommendations": [

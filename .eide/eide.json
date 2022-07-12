@@ -22,7 +22,11 @@
             "./.cmsis/dsp_lib",
             "./.cmsis/include",
             "./USER/RTE/_Template",
-            "./.eide/deps"
+            "./.eide/deps",
+            "./HEREWARE/LCD",
+            "./HEREWARE/BEEP",
+            "./USMART",
+            "./Apps/inc"
           ],
           "defineList": [
             "STM32F10X_HD",
@@ -35,40 +39,10 @@
   "compileConfig": {
     "cpuType": "Cortex-M3",
     "floatingPointHardware": "none",
-    "useCustomScatterFile": true,
+    "useCustomScatterFile": false,
     "scatterFilePath": "undefined",
     "storageLayout": {
       "RAM": [
-        {
-          "tag": "RAM",
-          "id": 1,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "noInit": false
-        },
-        {
-          "tag": "RAM",
-          "id": 2,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "noInit": false
-        },
-        {
-          "tag": "RAM",
-          "id": 3,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "noInit": false
-        },
         {
           "tag": "IRAM",
           "id": 1,
@@ -78,74 +52,24 @@
           },
           "isChecked": true,
           "noInit": false
-        },
-        {
-          "tag": "IRAM",
-          "id": 2,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "noInit": false
         }
       ],
       "ROM": [
         {
-          "tag": "ROM",
-          "id": 1,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "isStartup": false
-        },
-        {
-          "tag": "ROM",
-          "id": 2,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "isStartup": false
-        },
-        {
-          "tag": "ROM",
-          "id": 3,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "isStartup": false
-        },
-        {
           "tag": "IROM",
           "id": 1,
           "mem": {
-            "startAddr": "0x8000000",
+            "startAddr": "0x08000000",
             "size": "0x80000"
           },
           "isChecked": true,
           "isStartup": true
-        },
-        {
-          "tag": "IROM",
-          "id": 2,
-          "mem": {
-            "startAddr": "0x0",
-            "size": "0x0"
-          },
-          "isChecked": false,
-          "isStartup": false
         }
       ]
     },
     "options": "null"
   },
-  "uploader": "JLink",
+  "uploader": "STLink",
   "srcDirs": [
     "./.eide/deps"
   ],
@@ -154,34 +78,46 @@
     "files": [],
     "folders": [
       {
-        "name": "USER",
-        "files": [
+        "name": "Apps",
+        "files": [],
+        "folders": [
           {
-            "path": "USER/main.c"
+            "name": "inc",
+            "files": [
+              {
+                "path": "Apps/inc/clock.h"
+              },
+              {
+                "path": "Apps/inc/gui.h"
+              },
+              {
+                "path": "Apps/inc/rtc.h"
+              },
+              {
+                "path": "Apps/inc/tim1.h"
+              }
+            ],
+            "folders": []
           },
           {
-            "path": "USER/stm32f10x_it.c"
-          },
-          {
-            "path": "USER/system_stm32f10x.c"
+            "name": "src",
+            "files": [
+              {
+                "path": "Apps/src/clock.c"
+              },
+              {
+                "path": "Apps/src/gui.c"
+              },
+              {
+                "path": "Apps/src/rtc.c"
+              },
+              {
+                "path": "Apps/src/tim1.c"
+              }
+            ],
+            "folders": []
           }
-        ],
-        "folders": []
-      },
-      {
-        "name": "SYSTEM",
-        "files": [
-          {
-            "path": "SYSTEM/delay/delay.c"
-          },
-          {
-            "path": "SYSTEM/sys/sys.c"
-          },
-          {
-            "path": "SYSTEM/usart/usart.c"
-          }
-        ],
-        "folders": []
+        ]
       },
       {
         "name": "CORE",
@@ -271,15 +207,66 @@
         "folders": []
       },
       {
+        "name": "HEREWARE",
+        "files": [
+          {
+            "path": "HEREWARE/BEEP/beep.c"
+          },
+          {
+            "path": "HEREWARE/LCD/lcd.c"
+          },
+          {
+            "path": "HEREWARE/LED/led.c"
+          }
+        ],
+        "folders": []
+      },
+      {
         "name": "README",
         "files": [],
         "folders": []
       },
       {
-        "name": "HEREWARE",
+        "name": "SYSTEM",
         "files": [
           {
-            "path": "HEREWARE/LED/led.c"
+            "path": "SYSTEM/delay/delay.c"
+          },
+          {
+            "path": "SYSTEM/sys/sys.c"
+          },
+          {
+            "path": "SYSTEM/usart/usart.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "USER",
+        "files": [
+          {
+            "path": "USER/main.c"
+          },
+          {
+            "path": "USER/stm32f10x_it.c"
+          },
+          {
+            "path": "USER/system_stm32f10x.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "USMART",
+        "files": [
+          {
+            "path": "USMART/usmart_config.c"
+          },
+          {
+            "path": "USMART/usmart_str.c"
+          },
+          {
+            "path": "USMART/usmart.c"
           }
         ],
         "folders": []
@@ -288,20 +275,32 @@
   },
   "excludeList": [],
   "outDir": "build",
-  "deviceName": null,
-  "packDir": null,
+  "deviceName": "STM32F103ZE",
+  "packDir": ".pack/Keil/STM32F1xx_DFP.2.2.0",
   "uploadConfig": {
     "bin": "",
-    "baseAddr": "0x08000000",
-    "cpuInfo": {
-      "vendor": "ST",
-      "cpuName": "STM32F103C8"
-    },
-    "proType": 1,
-    "speed": 8000,
+    "proType": "SWD",
+    "resetMode": "default",
+    "runAfterProgram": true,
+    "speed": 4000,
+    "address": "0x08000000",
+    "elFile": "None",
+    "optionBytes": ".eide/template.st.option.bytes.ini",
     "otherCmds": ""
   },
-  "uploadConfigMap": {},
+  "uploadConfigMap": {
+    "JLink": {
+      "bin": "",
+      "baseAddr": "0x08000000",
+      "cpuInfo": {
+        "vendor": "ST",
+        "cpuName": "STM32F103C8"
+      },
+      "proType": 1,
+      "speed": 8000,
+      "otherCmds": ""
+    }
+  },
   "miscInfo": {
     "uid": "644d9d52c14cd28a7e6ffdf441d75878"
   },
