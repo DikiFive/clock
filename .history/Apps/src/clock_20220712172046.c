@@ -49,7 +49,7 @@ void clock_draw_panel(u16 x, u16 y, u16 size, u16 d)
         py0 = sy + r - (r - 4) * cos((PI / 30) * i);
         px1 = sx + r + (r - d) * sin((PI / 30) * i);
         py1 = sy + r - (r - d) * cos((PI / 30) * i);
-        gui_draw_bline1(px0, py0, px1, py1, 0, GBLUE);
+        gui_draw_bline1(px0, py0, px1, py1, 0, WHITE);
     }
     for (i = 0; i < 12; i++) //画小时格
     {
@@ -65,9 +65,9 @@ void clock_draw_panel(u16 x, u16 y, u16 size, u16 d)
         py0 = sy + r - (r - 5) * cos((PI / 2) * i);
         px1 = sx + r + (r - d - 3) * sin((PI / 2) * i);
         py1 = sy + r - (r - d - 3) * cos((PI / 2) * i);
-        gui_draw_bline1(px0, py0, px1, py1, 2, BRED);
+        gui_draw_bline1(px0, py0, px1, py1, 2, YELLOW);
     }
-    gui_fill_circle(x, y, d / 2, CYAN); //画中心圈
+    gui_fill_circle(x, y, d / 2, WHITE); //画中心圈
 }
 
 /**
@@ -160,11 +160,12 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
 
 /**
  * @brief 时钟显示
- * @param r 半径
- * @param d 秒钟高度
  */
-u8 clock_play(u16 r, u8 d)
+u8 clock_play(void)
 {
+    u16 r = 80;                                                          //表盘半径
+    u8 d = 8;                                                            //指针长度
+
     clock_showtime(120, 80, r * 2, d, clock.hour, clock.min, clock.sec); //指针时钟显示时间
     delay_ms(1000);
 }

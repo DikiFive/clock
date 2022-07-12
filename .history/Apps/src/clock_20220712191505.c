@@ -49,7 +49,7 @@ void clock_draw_panel(u16 x, u16 y, u16 size, u16 d)
         py0 = sy + r - (r - 4) * cos((PI / 30) * i);
         px1 = sx + r + (r - d) * sin((PI / 30) * i);
         py1 = sy + r - (r - d) * cos((PI / 30) * i);
-        gui_draw_bline1(px0, py0, px1, py1, 0, GBLUE);
+        gui_draw_bline1(px0, py0, px1, py1, 0, g);
     }
     for (i = 0; i < 12; i++) //画小时格
     {

@@ -21,9 +21,9 @@ int main(void)
 	usmart_dev.init(SystemCoreClock / 10000000);
 	LCD_Clear(BLACK);
 	sprintf((char *)lcd_id, "LCD ID:%04X", lcddev.id); //将LCD ID打印到lcd_id数组。
-	clock_draw_panel(120, 80, 80 * 2, 8);			   //显示指针时钟表盘
+	clock_draw_panel(120, 80, r * 2, d);			   //显示指针时钟表盘
 	while (1)
 	{
-		clock_play(80, 8);
+		clock_play();
 	}
 }

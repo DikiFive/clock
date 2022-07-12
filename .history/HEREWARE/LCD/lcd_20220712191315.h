@@ -57,11 +57,11 @@ typedef struct
 #define BLUE 0x001F
 #define BRED 0XF81F//黑红色
 #define GRED 0XFFE0//?
-#define GBLUE 0X07FF//蓝绿色
+#define GBLUE 0X07FF
 #define RED 0xF800
 #define MAGENTA 0xF81F//紫红色
 #define GREEN 0x07E0
-#define CYAN 0x7FFF//天青色
+#define CYAN 0x7FFF
 #define YELLOW 0xFFE0
 #define BROWN 0XBC40 //棕色
 #define BRRED 0XFC07 //棕红色

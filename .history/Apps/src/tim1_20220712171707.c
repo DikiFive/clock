@@ -1,5 +1,5 @@
 #include "tim1.h"
-#include "clock.h"
+#include "cloc"
 /**
  * @brief  定时器用户设置
  * @param  Period 分频值
@@ -8,8 +8,8 @@
  */
 void TIM_UserConfig(u16 Period, u16 Prescaler)
 {
-    TIM_TimeBaseInitTypeDef TIM_InitStructure; //定时器参数结构体
-    NVIC_InitTypeDef NVIC_InitStructure;       //中断优先级结构体
+    TIM_TimeBaseInitTypeDef TIM_InitStructure;//定时器参数结构体
+    NVIC_InitTypeDef NVIC_InitStructure; //中断优先级结构体
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
     TIM_InitStructure.TIM_Period = Period;
