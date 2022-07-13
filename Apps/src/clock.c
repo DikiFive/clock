@@ -172,7 +172,12 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
  */
 void clock_NumShow(u8 hour, u8 min, u8 sec, u16 color, u16 x, u16 y)
 {
-
+    POINT_COLOR = color;
+    LCD_ShowxNum(x - 40, y, hour, 2, 16, 0);
+    LCD_ShowString(x - 20, y, 16, 16, 16, ":");
+    LCD_ShowxNum(x - 10, y, min, 2, 16, 0);
+    LCD_ShowString(x + 10, y, 16, 16, 16, ":");
+    LCD_ShowxNum(x + 20, y, sec, 2, 16, 0);
 }
 
 /**

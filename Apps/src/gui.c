@@ -396,7 +396,7 @@ void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color1, u16 color2)
     u16 i, a = 0, b = 0, t = 0;                                                                                 //循环计数
     gui_draw_arcrectangle(x0, y0, x1 - x0, y1 - y0, 10, 0, color1, color2);                                     //花边框
     gui_draw_arcrectangle(x0 + size, y0 + size, x1 - x0 - size * 2, y1 - y0 - size * 2, 10, 0, color2, color1); //花边框
-    for (i = 0; i <= (x1 - x0) * 2; t++)
+    for (i = 0; i <= (x1 - x0 - size) * 2; t++)
     {
         a = i / 2;
         if (t % 2 == 0)
@@ -409,7 +409,7 @@ void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color1, u16 color2)
         }
         i += size;
     }
-    for (i = 0; i <= (x1 - x0) * 2; t++)
+    for (i = 0; i <= (x1 - x0 - size) * 2; t++)
     {
         a = i / 2;
         if (t % 2 == 0)
@@ -422,7 +422,7 @@ void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color1, u16 color2)
         }
         i += size;
     }
-    for (i = 0; i <= (y1 - y0) * 2; t++)
+    for (i = 0; i <= (y1 - y0 - size) * 2; t++)
     {
         b = i / 2;
         if (t % 2 == 0)
@@ -435,7 +435,7 @@ void gui_flower(u16 x0, u16 y0, u16 x1, u16 y1, u8 size, u16 color1, u16 color2)
         }
         i += size;
     }
-    for (i = 0; i <= (y1 - y0) * 2; t++)
+    for (i = 0; i <= (y1 - y0 - size) * 2; t++)
     {
         b = i / 2;
         if (t % 2 == 0)
