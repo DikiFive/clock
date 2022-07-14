@@ -1,6 +1,7 @@
 #include "gui.h"
 #include "lcd.h"
 #include "math.h"
+#include "colors.h"
 
 /**
  * @brief  画点

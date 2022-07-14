@@ -8,6 +8,8 @@ typedef struct time
     u8 hour;
     u8 min;
     u8 sec;
+    u8 count;
+    u8 down;
 } time;
 
 #define PI 3.1415
@@ -15,6 +17,7 @@ typedef struct time
 extern time clock;
 
 void clock_alarm_ring(u8 type);
+void clock_countdown(u8 type, u8 time);
 void clock_draw_panel(u16 x, u16 y, u16 size, u16 d);
 u8 clock_play(u16 x, u16 y, u16 r, u8 d);
 void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec);

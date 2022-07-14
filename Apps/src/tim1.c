@@ -41,6 +41,10 @@ void TIM1_UP_IRQHandler(void)
     {
         clock.sec++;
         clock_set();
+        if (clock.count == 1)
+        {
+            clock.down++;
+        }
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
     }
 }

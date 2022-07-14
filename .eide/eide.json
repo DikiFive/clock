@@ -26,7 +26,13 @@
             "./HEREWARE/LCD",
             "./HEREWARE/BEEP",
             "./USMART",
-            "./Apps/inc"
+            "./Apps/inc",
+            "./HEREWARE/24CXX",
+            "./HEREWARE/IIC",
+            "./HEREWARE/KEY",
+            "./HEREWARE/SPI",
+            "./HEREWARE/TOUCH",
+            "./HEREWARE/W25QXX"
           ],
           "defineList": [
             "STM32F10X_HD",
@@ -210,13 +216,43 @@
         "name": "HEREWARE",
         "files": [
           {
+            "path": "HEREWARE/24CXX/24cxx.c"
+          },
+          {
             "path": "HEREWARE/BEEP/beep.c"
+          },
+          {
+            "path": "HEREWARE/IIC/myiic.c"
+          },
+          {
+            "path": "HEREWARE/KEY/key.c"
           },
           {
             "path": "HEREWARE/LCD/lcd.c"
           },
           {
             "path": "HEREWARE/LED/led.c"
+          },
+          {
+            "path": "HEREWARE/SPI/spi.c"
+          },
+          {
+            "path": "HEREWARE/TOUCH/ctiic.c"
+          },
+          {
+            "path": "HEREWARE/TOUCH/ft5206.c"
+          },
+          {
+            "path": "HEREWARE/TOUCH/gt9147.c"
+          },
+          {
+            "path": "HEREWARE/TOUCH/ott2001a.c"
+          },
+          {
+            "path": "HEREWARE/TOUCH/touch.c"
+          },
+          {
+            "path": "HEREWARE/W25QXX/w25qxx.c"
           }
         ],
         "folders": []
