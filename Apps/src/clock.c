@@ -67,7 +67,7 @@ void clock_draw_panel(u16 x, u16 y, u16 size, u16 d)
         py1 = sy + r - (r - d - 3) * cos((PI / 2) * i);
         gui_draw_bline1(px0, py0, px1, py1, 2, LIGHTBLUE);
     }
-    gui_fill_circle(x, y, d / 2, LBBLUE); //画中心圈
+    gui_fill_circle(x, y, d / 2, BLUE); //画中心圈
 }
 
 /**
@@ -128,8 +128,8 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
         //显示新的时钟
         temp = (float)min / 60;
         temp += hour;
-        px0 = sx + r + (r - 3 * d - 7) * sin((PI / 6) * temp);
-        py0 = sy + r - (r - 3 * d - 7) * cos((PI / 6) * temp);
+        px0 = sx + r + (r - 3 * d - 3) * sin((PI / 6) * temp);
+        py0 = sy + r - (r - 3 * d - 3) * cos((PI / 6) * temp);
         px1 = sx + r + r1 * sin((PI / 6) * temp);
         py1 = sy + r - r1 * cos((PI / 6) * temp);
         gui_draw_bline1(px0, py0, px1, py1, 2, BROWN);

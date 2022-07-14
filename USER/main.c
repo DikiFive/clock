@@ -7,17 +7,26 @@
 #include "usart.h"
 #include "clock.h"
 #include "gui.h"
+#include "24cxx.h"
+#include "w25qxx.h"
+#include "touch.h"
+#include "key.h"
+
+const u16 POINT_COLOR_TBL[CT_MAX_TOUCH] = {RED, GREEN, BLUE, BROWN, GRED};
 
 int main(void)
 {
-	Beep_int();										//蜂鸣器初始化
 	TIM_UserConfig(10000 - 1, 7200 - 1);			//定时器TIM1初始化
-	delay_init();									//延时函数初始化
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(115200);								//串口初始化为115200
-	LED_Init();										// LED端口初始化
-	LCD_Init();										// LCD初始化
 	usmart_dev.init(SystemCoreClock / 10000000);
+
+	delay_init(); //延时函数初始化
+	Beep_int();	  //蜂鸣器初始化
+	LED_Init();	  // LED端口初始化
+	LCD_Init();	  // LCD初始化
+	KEY_Init();	  // KEY按键初始化
+
 	LCD_Clear(WHITE);								 //黑色背景清屏
 	clock_draw_panel(120, 100, 80 * 2, 16);			 //显示指针时钟表盘
 	clock_draw_frame(240, 320, RED, YELLOW);		 //显示时钟边框
