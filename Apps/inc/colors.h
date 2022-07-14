@@ -12,7 +12,7 @@
 #define Chocolates 0xd343      //巧克力
 #define Fresh_meat 0xfc0e      //鲜肉(鲑鱼)色
 #define silvery 0xc618         //银白色
-#define Midnight_blue 0x18ce   //午夜的蓝色
+#define Midnight_blue 0x18ce   //午夜的蓝色 
 #define Light_yellow 0xfffc    //浅黄色
 
 #endif

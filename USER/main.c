@@ -12,22 +12,30 @@
 #include "touch.h"
 #include "key.h"
 #include "colors.h"
+#include "remote.h"
 
 const u16 POINT_COLOR_TBL[CT_MAX_TOUCH] = {RED, GREEN, BLUE, BROWN, GRED};
 
+typedef struct key
+{
+	u8 IR;
+	u8 Num;
+} KEY;
+
+KEY kn;
+
 int main(void)
 {
-	u8 KeyNum;
-
 	TIM_UserConfig(1000 - 1, 7200 - 1);				//定时器TIM1初始化
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(9600);								//串口初始化为9600
 
-	delay_init(); //延时函数初始化
-	Beep_int();	  //蜂鸣器初始化
-	LED_Init();	  // LED端口初始化
-	LCD_Init();	  // LCD初始化
-	KEY_Init();	  // KEY按键初始化
+	delay_init();  //延时函数初始化
+	Beep_int();	   //蜂鸣器初始化
+	LED_Init();	   // LED端口初始化
+	LCD_Init();	   // LCD初始化
+	KEY_Init();	   // KEY按键初始化
+	Remote_Init(); //红外接收初始化
 
 	LCD_Clear(PINK);									   //粉色背景清屏
 	BACK_COLOR = PINK;									   //粉色背景色
@@ -38,8 +46,10 @@ int main(void)
 	// LCD_ShowString(104, 210, 96, 16, 16, "中国制造");//中文显示
 	while (1)
 	{
-		KeyNum = KEY_Scan(0);	 //获取按键码
-		if (KeyNum == KEY0_PRES) //当key0按下
+		kn.Num = KEY_Scan(0);								//获取按键码
+		kn.IR = Remote_Scan();								//获取红外键码
+		
+		if (kn.Num == KEY0_PRES) //当key0按下
 		{
 			clock.count++; //特征码自增
 			if (clock.count > 1)
@@ -49,12 +59,14 @@ int main(void)
 		}
 		if (clock.count == 1)
 		{
-			clock_countdown(3, 5);
+			clock_countdown(3, 1);
 			gui_fill_circle(120, 100, 16 / 2, RED); //画中心圈
 		}
 		else
 		{
-			clock.down = 0;							 //特征码置零
+			LED0 = 1;
+			LED1 = 1;
+			clock.down = 0;							 //计时器置零
 			gui_fill_circle(120, 100, 16 / 2, BLUE); //画中心圈
 		}
 		void countdown();

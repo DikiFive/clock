@@ -35,7 +35,7 @@ void clock_alarm_ring(u8 type)
  */
 void clock_countdown(u8 type, u8 time)
 {
-    if (clock.down % (time * 60) == 0)
+    if (clock.down == (time * 60))
     {
         clock.down = 0;
         u8 i;
@@ -183,6 +183,14 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
         oldmin = min;   //保存分
         oldsec = sec;   //保存秒
     }
+}
+
+/**
+ * @brief  时间设置
+ */
+void clock_time_set()
+{
+    
 }
 
 /**
