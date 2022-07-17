@@ -7,8 +7,11 @@
 #include "tim1.h"
 #include "led.h"
 #include "colors.h"
+#include "usart.h"
 
 time clock; //时间表盘结构体
+KEY kn;
+MOD mode;
 
 /**
  * @brief  闹钟响铃
@@ -186,14 +189,6 @@ void clock_showtime(u16 x, u16 y, u16 size, u16 d, u8 hour, u8 min, u8 sec)
 }
 
 /**
- * @brief  时间设置
- */
-void clock_time_set()
-{
-    
-}
-
-/**
  * @brief  摆钟
  * @param  x 坐标中心点
  * @param  y 坐标中心点
@@ -292,9 +287,9 @@ void clock_set()
         clock.min = 0;
         clock.hour++;
     }
-    if (clock.hour > 11)
+    if (clock.hour > 23)
     {
-        clock.hour -= 12;
+        clock.hour -= 24;
     }
 }
 
@@ -308,4 +303,45 @@ void clock_set()
 u8 clock_play(u16 x, u16 y, u16 r, u8 d)
 {
     clock_showtime(x, y, r * 2, d, clock.hour, clock.min, clock.sec); //指针时钟显示时间
+    if (USART_RX_STA & 0x8000)
+    {
+        mode.len = USART_RX_STA & 0x3fff;
+        printf("\r\n修改的时间为:\r\n");
+        if (USART_RX_BUF[2] == '-')
+        {
+            clock.hour = (USART_RX_BUF[0] - '0') * 10 + (USART_RX_BUF[1] - '0');
+        }
+        if (USART_RX_BUF[5] == '-')
+        {
+            clock.min = (USART_RX_BUF[3] - '0') * 10 + (USART_RX_BUF[4] - '0');
+        }
+        clock.sec = (USART_RX_BUF[6] - '0') * 10 + (USART_RX_BUF[7] - '0');
+        if (clock.hour > 23 || clock.min > 59 || clock.sec > 59)
+        {
+            mode.flag = 1;
+        }
+        else
+        {
+            mode.flag = 0;
+        }
+        if (mode.flag == 1)
+        {
+            printf("错了再来");
+        }
+        else
+        {
+            printf("\r\n\r\n");
+            USART_RX_STA = 0;
+            mode.Rf = 1;
+        }
+    }
+    else
+    {
+        if (mode.Rf == 1)
+        {
+            printf("请输入时间数据 - - 以回车键结束\r\n");
+            delay_ms(5);
+            mode.Rf = 0;
+        }
+    }
 }

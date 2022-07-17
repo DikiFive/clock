@@ -32,7 +32,9 @@
             "./HEREWARE/KEY",
             "./HEREWARE/SPI",
             "./HEREWARE/TOUCH",
-            "./HEREWARE/W25QXX"
+            "./HEREWARE/W25QXX",
+            "./HEREWARE/REMOTE",
+            "./HEREWARE/TPAD"
           ],
           "defineList": [
             "STM32F10X_HD",
@@ -92,6 +94,9 @@
             "files": [
               {
                 "path": "Apps/inc/clock.h"
+              },
+              {
+                "path": "Apps/inc/colors.h"
               },
               {
                 "path": "Apps/inc/gui.h"
@@ -234,6 +239,9 @@
             "path": "HEREWARE/LED/led.c"
           },
           {
+            "path": "HEREWARE/REMOTE/remote.c"
+          },
+          {
             "path": "HEREWARE/SPI/spi.c"
           },
           {
@@ -250,6 +258,9 @@
           },
           {
             "path": "HEREWARE/TOUCH/touch.c"
+          },
+          {
+            "path": "HEREWARE/TPAD/tpad.c"
           },
           {
             "path": "HEREWARE/W25QXX/w25qxx.c"
@@ -309,7 +320,9 @@
       }
     ]
   },
-  "excludeList": [],
+  "excludeList": [
+    "<virtual_root>/USMART"
+  ],
   "outDir": "build",
   "deviceName": "STM32F103ZE",
   "packDir": ".pack/Keil/STM32F1xx_DFP.2.2.0",

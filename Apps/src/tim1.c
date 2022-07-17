@@ -1,5 +1,7 @@
 #include "tim1.h"
 #include "clock.h"
+#include "key.h"
+#include "lcd.h"
 /**
  * @brief  定时器用户设置
  * @param  Period 分频值
@@ -41,10 +43,13 @@ void TIM1_UP_IRQHandler(void)
     {
         clock.sec++;
         clock_set();
+        skey.u32time1++;
+        skey.u32time2++;
         if (clock.count == 1)
         {
             clock.down++;
         }
+        clock.time_FlashFlag = !clock.time_FlashFlag;
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
     }
 }
