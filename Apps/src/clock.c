@@ -243,9 +243,9 @@ void clock_NumShow(u8 hour, u8 min, u8 sec, u16 color, u16 x, u16 y)
 {
     POINT_COLOR = color;
     LCD_ShowxNum(x - 40, y, hour, 2, 16, 0x80);
-    // LCD_ShowString(x - 20, y, 16, 16, 16, ":");
+    LCD_ShowString(x - 20, y, 16, 16, 16, ":");
     LCD_ShowxNum(x - 10, y, min, 2, 16, 0x80);
-    // LCD_ShowString(x + 10, y, 16, 16, 16, ":");
+    LCD_ShowString(x + 10, y, 16, 16, 16, ":");
     LCD_ShowxNum(x + 20, y, sec, 2, 16, 0x80);
 }
 
@@ -305,43 +305,35 @@ u8 clock_play(u16 x, u16 y, u16 r, u8 d)
     clock_showtime(x, y, r * 2, d, clock.hour, clock.min, clock.sec); //指针时钟显示时间
     if (USART_RX_STA & 0x8000)
     {
-        mode.len = USART_RX_STA & 0x3fff;
+        mode.len = USART_RX_STA & 0x3fff; //得到此次接收到的数据长度
         printf("\r\n修改的时间为:\r\n");
         if (USART_RX_BUF[2] == '-')
         {
-            clock.hour = (USART_RX_BUF[0] - '0') * 10 + (USART_RX_BUF[1] - '0');
+            clock.hour = (USART_RX_BUF[1] - '0') + (USART_RX_BUF[0] - '0') * 10;
         }
+
         if (USART_RX_BUF[5] == '-')
         {
-            clock.min = (USART_RX_BUF[3] - '0') * 10 + (USART_RX_BUF[4] - '0');
+            clock.min = (USART_RX_BUF[4] - '0') + (USART_RX_BUF[3] - '0') * 10;
         }
-        clock.sec = (USART_RX_BUF[6] - '0') * 10 + (USART_RX_BUF[7] - '0');
-        if (clock.hour > 23 || clock.min > 59 || clock.sec > 59)
+
+        clock.sec = (USART_RX_BUF[7] - '0') + (USART_RX_BUF[6] - '0') * 10;
+
+        if (USART_RX_BUF[2] != '-' || USART_RX_BUF[5] != '-')
         {
             mode.flag = 1;
         }
-        else
-        {
-            mode.flag = 0;
-        }
+        while ((USART1->SR & 0X40) == 0)
+            ; //等待发送结束
         if (mode.flag == 1)
         {
-            printf("错了再来");
+            printf("error");
+            mode.flag = 0;
         }
         else
         {
-            printf("\r\n\r\n");
+            printf("\r\n\r\n"); //插入换行
             USART_RX_STA = 0;
-            mode.Rf = 1;
-        }
-    }
-    else
-    {
-        if (mode.Rf == 1)
-        {
-            printf("请输入时间数据 - - 以回车键结束\r\n");
-            delay_ms(5);
-            mode.Rf = 0;
         }
     }
 }

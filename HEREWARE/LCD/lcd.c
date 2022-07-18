@@ -12,6 +12,15 @@ u16 BACK_COLOR = 0xFFFF;  //背景色
 //默认为竖屏
 _lcd_dev lcddev;
 
+/**
+ * @brief  显示单个汉字
+ * @param  x 左上角
+ * @param  y 左上角
+ * @param  size  字号
+ * @param  num 第几个汉字
+ * @param  mode 0,不叠加；1,叠加
+ * @retval 无
+ */
 void ShowCn(u16 x, u16 y, u8 size, u8 num, u8 mode)
 {
     u8 temp, t1, t;
