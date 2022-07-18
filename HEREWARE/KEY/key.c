@@ -37,8 +37,8 @@ u8 KUP_Scan()
 
 	if (WK_UP == 1) //按键按下
 	{
-		delay_ms(10); //消抖
-		if (WK_UP == 1)
+		delay_ms(10);	//消抖
+		if (WK_UP == 1) //按下按键
 		{
 			if (skey.u8key_flag == 0)
 			{
@@ -55,7 +55,6 @@ u8 KUP_Scan()
 			}
 		}
 	}
-
 	else if (WK_UP == 0) //按键松开
 	{
 		if (skey.u8key_flag == 1) //第一次按键松开

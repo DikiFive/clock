@@ -291,6 +291,10 @@ void clock_set()
     {
         clock.hour -= 24;
     }
+    else if (clock.hour == 55)
+    {
+        clock.hour = 23;
+    }
 }
 
 /**
@@ -335,5 +339,30 @@ u8 clock_play(u16 x, u16 y, u16 r, u8 d)
             printf("\r\n\r\n"); //插入换行
             USART_RX_STA = 0;
         }
+    }
+    //更新显示，根据clock.time_select和clock.time_FlashFlag判断可完成闪烁功能
+    if (clock.time_select == 1 && clock.time_FlashFlag == 1)
+    {
+        gui_draw_bline1(80, 230, 100, 230, 1, BLACK);
+    }
+    else
+    {
+        gui_draw_bline1(80, 230, 100, 230, 1, PINK);
+    }
+    if (clock.time_select == 2 && clock.time_FlashFlag == 1)
+    {
+        gui_draw_bline1(110, 230, 130, 230, 1, BLACK);
+    }
+    else
+    {
+        gui_draw_bline1(110, 230, 130, 230, 1, PINK);
+    }
+    if (clock.time_select == 3 && clock.time_FlashFlag == 1)
+    {
+        gui_draw_bline1(140, 230, 160, 230, 1, BLACK);
+    }
+    else
+    {
+        gui_draw_bline1(140, 230, 160, 230, 1, PINK);
     }
 }
