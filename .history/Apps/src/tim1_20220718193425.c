@@ -43,8 +43,8 @@ void TIM1_UP_IRQHandler(void)
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
     {
         clock.temp++;
-        skey.u32time1++;
-        skey.u32time2++;
+        // skey.u32time1++;
+        // skey.u32time2++;
         if (clock.temp % 2 == 0)
         {
             clock.temp = 0;

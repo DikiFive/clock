@@ -64,6 +64,13 @@ int main(void)
 		kn.IR = Remote_Scan(); //获取红外键码
 		kn.wk_up = KUP_Scan(); //获取wk——up键码状态
 
+		// wk_up按键功能
+		if (kn.wk_up == LONG_PRES)
+		{
+			clock.time_flag = !clock.time_flag;
+			clock
+		}
+
 		//返回功能
 		if (TPAD_Scan(0) || kn.IR == POWER || kn.wk_up == LONG_PRES) //按下触摸按钮或者红外POWER键位相当于返回
 		{

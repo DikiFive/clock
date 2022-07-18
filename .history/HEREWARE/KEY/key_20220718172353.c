@@ -47,7 +47,7 @@ u8 KUP_Scan()
 			}
 			else if (skey.u8key_flag == 1)
 			{
-				if (!press && skey.u32time1 > 6) //如果第一次按下且时间超过3S，视为长按
+				if (!press && skey.u32time1 > 3000) //如果第一次按下且时间超过3S，视为长按
 				{
 					press = 1;
 					return LONG_PRES; //返回长按键值
@@ -60,7 +60,7 @@ u8 KUP_Scan()
 		if (skey.u8key_flag == 1) //第一次按键松开
 		{
 			skey.u8key_flag = 0;
-			if (skey.u32time1 > 6) //按下后超过3秒才松开，已经返回了键值，松手后把标志位都归零
+			if (skey.u32time1 > 3000) //按下后超过3秒才松开，已经返回了键值，松手后把标志位都归零
 			{
 				press = 0;
 				skey.u32time1 = 0;
@@ -75,7 +75,7 @@ u8 KUP_Scan()
 			}
 			else if (skey.u8key_double_flag == 1)
 			{
-				if (skey.u32time2 < 1) //如果第二次松开时间间隔小于0.5S，视为双击
+				if (skey.u32time2 < ) //如果第二次松开时间间隔小于0.5S，视为双击
 				{
 					skey.u8key_double_flag = 0;
 					return DOUBLE_PRES;

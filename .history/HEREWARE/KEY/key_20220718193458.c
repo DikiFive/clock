@@ -60,7 +60,7 @@ u8 KUP_Scan()
 		if (skey.u8key_flag == 1) //第一次按键松开
 		{
 			skey.u8key_flag = 0;
-			if (skey.u32time1 > 6) //按下后超过3秒才松开，已经返回了键值，松手后把标志位都归零
+			if (skey.u32time1 > ) //按下后超过3秒才松开，已经返回了键值，松手后把标志位都归零
 			{
 				press = 0;
 				skey.u32time1 = 0;
@@ -75,7 +75,7 @@ u8 KUP_Scan()
 			}
 			else if (skey.u8key_double_flag == 1)
 			{
-				if (skey.u32time2 < 1) //如果第二次松开时间间隔小于0.5S，视为双击
+				if (skey.u32time2 < 500) //如果第二次松开时间间隔小于0.5S，视为双击
 				{
 					skey.u8key_double_flag = 0;
 					return DOUBLE_PRES;
@@ -84,7 +84,7 @@ u8 KUP_Scan()
 		}
 		else if (skey.u8key_double_flag == 1)
 		{
-			if (skey.u32time2 >= 1)
+			if (skey.u32time2 >= 500)
 			{
 				skey.u8key_double_flag = 0;
 

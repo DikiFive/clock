@@ -84,7 +84,7 @@ u8 KUP_Scan()
 		}
 		else if (skey.u8key_double_flag == 1)
 		{
-			if (skey.u32time2 >= 1)
+			if (skey.u32time2 >= 500)
 			{
 				skey.u8key_double_flag = 0;
 

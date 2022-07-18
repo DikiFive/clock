@@ -2,7 +2,6 @@
 #include "clock.h"
 #include "key.h"
 #include "lcd.h"
-
 /**
  * @brief  定时器用户设置
  * @param  Period 分频值
@@ -29,7 +28,7 @@ void TIM_UserConfig(u16 Period, u16 Prescaler)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
     NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
@@ -42,18 +41,13 @@ void TIM1_UP_IRQHandler(void)
 {
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
     {
-        clock.temp++;
+        clock.sec++;
+        clock_set();
         skey.u32time1++;
         skey.u32time2++;
-        if (clock.temp % 2 == 0)
+        if (clock.count == 1)
         {
-            clock.temp = 0;
-            clock.sec++;
-            clock_set();
-            if (clock.count == 1)
-            {
-                clock.down++;
-            }
+            clock.down++;
         }
         clock.time_FlashFlag = !clock.time_FlashFlag;
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);

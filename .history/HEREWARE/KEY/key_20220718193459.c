@@ -75,7 +75,7 @@ u8 KUP_Scan()
 			}
 			else if (skey.u8key_double_flag == 1)
 			{
-				if (skey.u32time2 < 1) //如果第二次松开时间间隔小于0.5S，视为双击
+				if (skey.u32time2 < 500) //如果第二次松开时间间隔小于0.5S，视为双击
 				{
 					skey.u8key_double_flag = 0;
 					return DOUBLE_PRES;
@@ -84,7 +84,7 @@ u8 KUP_Scan()
 		}
 		else if (skey.u8key_double_flag == 1)
 		{
-			if (skey.u32time2 >= 1)
+			if (skey.u32time2 >= 500)
 			{
 				skey.u8key_double_flag = 0;
 

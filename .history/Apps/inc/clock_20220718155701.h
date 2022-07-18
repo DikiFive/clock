@@ -13,7 +13,6 @@ typedef struct time
     u8 time_select;
     u8 time_flag;
     u8 time_FlashFlag;
-    u8 temp;
 } time;
 
 typedef struct mod

@@ -24,7 +24,8 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(9600);								//串口初始化为9600
 	// TIM3_Int_Init(4999, 7199);						//定时器TIM3初始化
-	TIM_UserConfig(5000 - 1, 7200 - 1); //定时器TIM1初始化
+	TIM_UserConfig(5000-1, 7200 - 1);			//定时器TIM1初始化
+
 
 	//相关函数初始化
 	delay_init();  //延时函数初始化
@@ -63,9 +64,21 @@ int main(void)
 		kn.Num = KEY_Scan(0);  //获取按键码
 		kn.IR = Remote_Scan(); //获取红外键码
 		kn.wk_up = KUP_Scan(); //获取wk——up键码状态
-
+							   // wk_up按键功能
+		if (kn.wk_up == LONG_PRES)
+		{
+			mode.flag=1;
+		}
+		if (kn.wk_up == DOUBLE_PRES)
+		{
+			clock.min++;
+		}
+		if (kn.wk_up == KUP_PRES)
+		{
+			clock.hour--;
+		}
 		//返回功能
-		if (TPAD_Scan(0) || kn.IR == POWER || kn.wk_up == LONG_PRES) //按下触摸按钮或者红外POWER键位相当于返回
+		if (TPAD_Scan(0) || kn.IR == POWER) //按下触摸按钮或者红外POWER键位相当于返回
 		{
 			TC_flag = 0;
 			RmtSta = 0;
@@ -181,17 +194,20 @@ int main(void)
 		switch (clock.time_flag)
 		{
 		case 0:
-			gui_flower(95, 183, 144, 209, 8, Fresh_meat, scarlet); //花框
 			break;
 		case 1:
 			Time_set();
-			gui_flower(95, 183, 144, 209, 8, Pink_Red, GRAY); //花框
+			gui_fill_circle(120, 100, 16 / 2, PINK); //画中心圈
 			break;
 		}
 		//倒计时一分钟功能判断
 		if (kn.Num == KEY0_PRES || kn.IR == RPT) //当key0按下||红外按下RPT
 		{
-			clock.count = !clock.count; //特征码自增
+			clock.count++; //特征码自增
+			if (clock.count > 1)
+			{
+				clock.count = 0; //特征码置零
+			}
 		}
 		if (clock.count == 1)
 		{
@@ -216,24 +232,5 @@ int main(void)
  */
 void Time_set()
 {
-	if (kn.wk_up == DOUBLE_PRES)
-	{
-		clock.time_select++;
-		clock.time_select %= 4;
-	}
-	if (kn.wk_up == KUP_PRES)
-	{
-		switch (clock.time_select) //对选择位进行判断
-		{
-		case 1:
-			clock.hour++;
-			break;
-		case 2:
-			clock.min++;
-			break;
-		case 3:
-			clock.sec++;
-			break;
-		}
-	}
+
 }

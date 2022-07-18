@@ -43,18 +43,13 @@ void TIM1_UP_IRQHandler(void)
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
     {
         clock.temp++;
-        skey.u32time1++;
-        skey.u32time2++;
-        if (clock.temp % 2 == 0)
+        if(clock.temp)
+        {clock.sec++;
+        clock_set();
+        if (clock.count == 1)
         {
-            clock.temp = 0;
-            clock.sec++;
-            clock_set();
-            if (clock.count == 1)
-            {
-                clock.down++;
-            }
-        }
+            clock.down++;
+        }}
         clock.time_FlashFlag = !clock.time_FlashFlag;
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
     }
